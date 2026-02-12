@@ -43,7 +43,7 @@
         }
 
         body {
-            font-family: var(--font-mono); /* Default to mono for raw/technical feel */
+            font-family: var(--font-mono);
             background: var(--c-rich-black);
             color: var(--c-parchment);
             line-height: 1.6;
@@ -97,7 +97,6 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(212, 175, 55, 0.1);
-            /* PROTOCOL 2: Organic Geometry */
             border-radius: 40px 60px 60px 40px / 60px 30px 70px 40px;
             transition: all 0.6s var(--spring-smooth);
         }
@@ -200,7 +199,6 @@
             aspect-ratio: 4/5;
             background: var(--c-glass-light);
             border: 1px solid rgba(255,255,255,0.05);
-            /* Protocol 2: Fluid organic radius */
             border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%;
             display: flex;
             align-items: center;
@@ -236,7 +234,7 @@
         }
 
         /* ============================================
-           GALLERY SECTION (Masonry / Editorial)
+           GALLERY SECTION
         ============================================ */
         .gallery {
             padding: 10rem 5vw;
@@ -263,7 +261,6 @@
             position: relative;
         }
 
-        /* Broken Grid Layout */
         .g-item-1 { grid-column: 1 / 8; }
         .g-item-2 { grid-column: 7 / 13; margin-top: -10vw; z-index: 2; }
         .g-item-3 { grid-column: 3 / 10; margin-top: 5vw; }
@@ -272,14 +269,11 @@
             width: 100%;
             background: #111;
             overflow: hidden;
-            /* Brutalist mix: Sharp corners with one rounded */
             border-radius: 2px 2px 80px 2px; 
             position: relative;
         }
         
-        .g-item-2 .image-wrapper {
-            border-radius: 80px 2px 2px 2px;
-        }
+        .g-item-2 .image-wrapper { border-radius: 80px 2px 2px 2px; }
 
         .image-wrapper img {
             width: 100%;
@@ -326,67 +320,70 @@
         }
 
         /* ============================================
-           EXPLODED VIEW (Scrollytelling & Data)
+           INTERACTIVE EXPLODED VIDEO (SCROLLYTELLING)
         ============================================ */
-        .exploded-section {
-            padding: 10rem 5vw;
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 4vw;
-            align-items: center;
+        .scrolly-video-section {
+            /* Taller height creates more "scroll distance" to play the video */
+            height: 350vh; 
+            position: relative;
+            background: var(--c-rich-black);
+            margin-top: 10vh;
         }
 
-        .exploded-text {
-            grid-column: 2 / 6;
-        }
-
-        .exploded-text h2 {
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            margin-bottom: 2rem;
-            line-height: 1.1;
-        }
-
-        .data-list {
-            list-style: none;
-            margin-top: 3rem;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .data-list li {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-        }
-
-        .data-list li:hover {
-            color: var(--c-gold);
-            padding-left: 1rem;
-        }
-
-        .data-list .index {
-            color: var(--c-mocha);
-            font-size: 0.7rem;
-            margin-right: 1rem;
-        }
-
-        .exploded-visual {
-            grid-column: 7 / 13;
-            height: 80vh;
-            background: var(--c-glass-light);
-            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+        .scrolly-sticky-wrapper {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .scrolly-video-container {
+            width: 100%;
+            height: 100%;
             position: relative;
-            border: 1px solid rgba(255,255,255,0.02);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        video.exploded-video {
+            /* Cover fits the video nicely, but for product specs 'contain' is safer to see edges */
+            width: 90%; 
+            height: 90%;
+            object-fit: contain; 
+            filter: drop-shadow(0 20px 50px rgba(0,0,0,0.5));
+        }
+
+        .scrolly-overlay {
+            position: absolute;
+            top: 50%;
+            left: 5vw;
+            transform: translateY(-50%);
+            z-index: 10;
+            pointer-events: none; /* Let clicks pass through */
+        }
+
+        .scrolly-text {
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-left: 2px solid var(--c-gold);
+            max-width: 400px;
+            opacity: 0; /* Starts hidden, script reveals it */
+            transition: opacity 0.5s ease;
+        }
+
+        .scrolly-text.active {
+            opacity: 1;
         }
 
         /* ============================================
-           TECH SPECS (Code Brutalism)
+           TECH SPECS
         ============================================ */
         .tech-specs {
             padding: 10rem 5vw;
@@ -408,7 +405,6 @@
             border-radius: 2px;
         }
 
-        /* Asymmetric sizes */
         .bento-1 { grid-column: 1 / 6; }
         .bento-2 { grid-column: 6 / 13; border-radius: 2px 80px 2px 2px; }
         .bento-3 { grid-column: 1 / 8; border-radius: 2px 2px 2px 80px; }
@@ -454,9 +450,6 @@
             opacity: 0.5;
         }
 
-        /* ============================================
-           UTILITIES & ANIMATIONS
-        ============================================ */
         .placeholder-text {
             font-family: var(--font-mono);
             color: var(--c-mocha);
@@ -467,7 +460,7 @@
             border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%;
         }
 
-        /* Intersection Observer Classes */
+        /* Animation Classes */
         .reveal-up {
             opacity: 0;
             transform: translateY(60px);
@@ -492,7 +485,6 @@
             transform: scale(1);
         }
 
-        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .hero-text { grid-column: 1 / 13; margin-bottom: 4rem; text-align: center; }
             .hero-text .subtitle { margin: 0 auto 3rem; border-left: none; padding-left: 0; }
@@ -501,15 +493,15 @@
             .g-item-1, .g-item-2, .g-item-3 { grid-column: 1 / 13; margin: 0 0 4rem 0; }
             .glass-caption { position: relative; bottom: 0; right: 0; left: 0; width: 100%; max-width: none; border-radius: 2px; margin-top: -2rem;}
             
-            .exploded-text, .exploded-visual { grid-column: 1 / 13; }
-            
             .bento-1, .bento-2, .bento-3, .bento-4 { grid-column: 1 / 13; border-radius: 2px; }
+            
+            .scrolly-overlay { top: 70%; left: 50%; transform: translate(-50%, -50%); width: 90%; }
+            .scrolly-text { border-left: none; border-top: 2px solid var(--c-gold); text-align: center; margin: 0 auto; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Entropy Noise Layer -->
     <div class="noise-overlay"></div>
 
     <nav id="nav">
@@ -548,14 +540,13 @@
         </div>
 
         <div class="gallery-grid">
-            <!-- Asymmetric Masonry Items -->
             <div class="gallery-item g-item-1 reveal-blur" data-speed="0.02">
                 <div class="image-wrapper">
                     <img src="assets/shot-01-prestige.png" alt="Prestige Shot" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'height:60vh; display:flex; align-items:center; justify-content:center;\' class=\'placeholder-text\'>[ SYS_IMG_01 ]</div>';">
                 </div>
                 <div class="glass-caption">
                     <h3>Subsurface Scatter</h3>
-                    <p>Volumetric light passing through the frosted medium. Note the noise grain intentionally preserved in the shadow falloff.</p>
+                    <p>Volumetric light passing through the frosted medium. Note the noise grain intentionally preserved.</p>
                 </div>
             </div>
 
@@ -566,7 +557,7 @@
                 <div class="glass-caption">
                     <span class="human-scribble" style="position: absolute; top: -30px; right: 20px;">Micro-scratches!</span>
                     <h3>Alloy Oxidation</h3>
-                    <p>Brushed gold surface mapped with physical micro-imperfections to break the algorithmic sheen.</p>
+                    <p>Brushed gold surface mapped with physical micro-imperfections.</p>
                 </div>
             </div>
 
@@ -582,39 +573,26 @@
         </div>
     </section>
 
-    <section class="exploded-section" id="exploded">
-        <div class="exploded-text reveal-up">
-            <h2>Structural<br>Integrity</h2>
-            <p style="font-family: var(--font-editorial); font-size: 1.2rem; opacity: 0.8; font-style: italic;">
-                "To understand the object, we must tear it apart. Not mathematically, but violently."
-            </p>
-            
-            <ul class="data-list">
-                <li>
-                    <span><span class="index">01</span>CAP.ALLOY</span>
-                    <span>Au-79 / Brushed</span>
-                </li>
-                <li>
-                    <span><span class="index">02</span>PUMP.MECH</span>
-                    <span>Polymer / Matte</span>
-                </li>
-                <li>
-                    <span><span class="index">03</span>TUBE.FEED</span>
-                    <span>PP / Transparent</span>
-                </li>
-                <li>
-                    <span><span class="index">04</span>VESSEL.BODY</span>
-                    <span>Borosilicate / Frosted</span>
-                </li>
-                <li>
-                    <span><span class="index">05</span>FLUID.CORE</span>
-                    <span>v-0.8 / Amber SSS</span>
-                </li>
-            </ul>
-        </div>
-        <div class="exploded-visual reveal-blur" data-speed="0.08">
-            <span class="human-scribble" style="position:absolute; bottom: 10%; left: 5%; color: var(--c-parchment);">Void spaces mathematically verified</span>
-            <img src="assets/exploded-view.png" style="width:70%; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));" alt="Exploded" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'placeholder-text\'>[ RENDER_EXPLODE ]</div>';">
+    <!-- NEW SECTION: SCROLL-LINKED VIDEO EXPLOSION -->
+    <section class="scrolly-video-section" id="exploded">
+        <div class="scrolly-sticky-wrapper">
+            <div class="scrolly-video-container">
+                <!-- IMPORTANT: Replace 'exploded-animation.mp4' with your actual rendered video file -->
+                <!-- The video must start CLOSED and end EXPLODED -->
+                <video id="exploded-video" class="exploded-video" muted playsinline preload="auto">
+                    <source src="assets/exploded-animation.mp4" type="video/mp4">
+                    <!-- Fallback if video missing -->
+                    <div class="placeholder-text">[ VIDEO_MISSING ]<br>assets/exploded-animation.mp4</div>
+                </video>
+
+                <div class="scrolly-overlay">
+                    <div class="scrolly-text" id="scrolly-text">
+                        <h2>Mechanical Disassembly</h2>
+                        <p>Scroll to interact. We reverse-engineered the pump mechanism to visualize the internal spring tension and fluid dynamics.</p>
+                        <span class="human-scribble" style="margin-top: 1rem;">100% Geometry Exact</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -663,7 +641,7 @@
     </footer>
 
     <script>
-        // Smooth scroll nav logic with spring feel
+        // Smooth scroll nav logic
         const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -673,7 +651,7 @@
             }
         });
 
-        // Intersection Observer for physics-based reveals
+        // Intersection Observer
         const observerOptions = {
             threshold: 0.15,
             rootMargin: '0px 0px -50px 0px'
@@ -683,7 +661,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Optional: Unobserve after reveal for static feel, or keep observing for replay
                     observer.unobserve(entry.target);
                 }
             });
@@ -693,21 +670,89 @@
             observer.observe(el);
         });
 
-        // Parallax depth effect for images (Anti-flatness protocol)
+        // Parallax depth effect
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
             document.querySelectorAll('[data-speed]').forEach(el => {
                 const speed = el.getAttribute('data-speed');
-                // Calculate position relative to viewport
                 const rect = el.getBoundingClientRect();
                 const elementCenter = rect.top + rect.height / 2;
                 const viewCenter = window.innerHeight / 2;
                 const distance = elementCenter - viewCenter;
-                
                 const yPos = -(distance * speed);
                 el.style.transform = `translateY(${yPos}px)`;
             });
         });
+
+        // ===============================================
+        //  THE SCROLL-LINKED VIDEO SCRUBBER LOGIC
+        // ===============================================
+        const section = document.querySelector('.scrolly-video-section');
+        const video = document.getElementById('exploded-video');
+        const overlayText = document.getElementById('scrolly-text');
+
+        // Linear interpolation for smoothness (Physics feel)
+        const lerp = (start, end, factor) => start + (end - start) * factor;
+
+        let targetTime = 0;
+        let currentTime = 0;
+
+        // Main Animation Loop
+        function animateVideo() {
+            if (video && video.duration) {
+                // Smoothly interpolate current time towards target time
+                // The '0.1' factor determines the "weight" or lag of the scroll.
+                currentTime = lerp(currentTime, targetTime, 0.1);
+                
+                // Only update if difference is significant to save performance
+                if (Math.abs(currentTime - video.currentTime) > 0.01) {
+                    video.currentTime = currentTime;
+                }
+            }
+            requestAnimationFrame(animateVideo);
+        }
+
+        // Initialize Animation Loop
+        animateVideo();
+
+        // Calculate Scroll Position
+        if (section && video) {
+            window.addEventListener('scroll', () => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const windowHeight = window.innerHeight;
+                
+                // Calculate how far we are into the section
+                // We subtract windowHeight so animation starts when section hits bottom of screen
+                const scrollPos = window.scrollY - sectionTop + windowHeight;
+                
+                // Calculate percentage (0 to 1)
+                // We divide by (sectionHeight + windowHeight) to map the full travel
+                let percentage = scrollPos / (sectionHeight);
+
+                // Clamp percentage between 0 and 1
+                percentage = Math.max(0, Math.min(1, percentage));
+
+                // Map percentage to video duration
+                if (!isNaN(video.duration)) {
+                    targetTime = percentage * video.duration;
+                }
+
+                // Fade in text when we are in the middle of the animation
+                if (percentage > 0.2 && percentage < 0.8) {
+                    overlayText.classList.add('active');
+                } else {
+                    overlayText.classList.remove('active');
+                }
+            });
+        }
+        
+        // Ensure video metadata is loaded before trying to scrub
+        video.addEventListener('loadedmetadata', () => {
+            // Force pause just in case
+            video.pause();
+        });
+
     </script>
 </body>
 </html>
